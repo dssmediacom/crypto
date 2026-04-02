@@ -126,6 +126,41 @@
   .panel { display: none; }
   .panel.active { display: block; }
 
+  .mode-toggle {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 20px;
+    background: var(--bg);
+    border-radius: 6px;
+    padding: 2px;
+  }
+
+  .mode-btn {
+    flex: 1;
+    padding: 8px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: none;
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+
+  .mode-btn:hover { color: var(--text); }
+
+  .mode-btn.active {
+    background: var(--surface2);
+    color: var(--text);
+  }
+
+  .mode-content { display: none; }
+  .mode-content.active { display: block; }
+
   .field {
     margin-bottom: 20px;
   }
@@ -188,6 +223,99 @@
 
   .toggle-vis:hover { color: var(--text); }
 
+  .drop-zone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 32px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: var(--surface);
+    position: relative;
+  }
+
+  .drop-zone:hover, .drop-zone.dragover {
+    border-color: var(--accent);
+    background: rgba(74, 142, 255, 0.04);
+  }
+
+  .drop-zone input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .drop-zone .drop-icon {
+    font-size: 28px;
+    margin-bottom: 8px;
+    opacity: 0.4;
+  }
+
+  .drop-zone .drop-text {
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  .drop-zone .drop-hint {
+    font-size: 11px;
+    color: var(--text-dim);
+    opacity: 0.5;
+    margin-top: 4px;
+  }
+
+  .file-info {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-top: 10px;
+  }
+
+  .file-info.visible {
+    display: flex;
+  }
+
+  .file-info .file-icon {
+    font-size: 20px;
+    opacity: 0.5;
+  }
+
+  .file-info .file-details {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .file-info .file-name {
+    font-size: 13px;
+    color: var(--text);
+    font-family: var(--mono);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .file-info .file-size {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+
+  .file-info .file-remove {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 4px;
+    line-height: 1;
+  }
+
+  .file-info .file-remove:hover { color: var(--danger); }
+
   .btn-row {
     display: flex;
     gap: 10px;
@@ -207,17 +335,22 @@
     transition: all 0.15s ease;
   }
 
+  .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
   .btn-primary {
     background: var(--accent);
     color: #fff;
   }
 
-  .btn-primary:hover {
+  .btn-primary:hover:not(:disabled) {
     background: #5a9aff;
     box-shadow: 0 4px 16px rgba(74, 142, 255, 0.3);
   }
 
-  .btn-primary:active { transform: scale(0.98); }
+  .btn-primary:active:not(:disabled) { transform: scale(0.98); }
 
   .btn-secondary {
     background: var(--surface2);
@@ -225,7 +358,7 @@
     border: 1px solid var(--border);
   }
 
-  .btn-secondary:hover {
+  .btn-secondary:hover:not(:disabled) {
     color: var(--text);
     border-color: var(--border-focus);
   }
@@ -251,7 +384,12 @@
     color: var(--text-dim);
   }
 
-  .copy-btn {
+  .output-actions {
+    display: flex;
+    gap: 6px;
+  }
+
+  .copy-btn, .download-btn {
     background: none;
     border: 1px solid var(--border);
     color: var(--text-dim);
@@ -263,12 +401,17 @@
     transition: all 0.15s ease;
   }
 
-  .copy-btn:hover {
+  .copy-btn:hover, .download-btn:hover {
     border-color: var(--accent);
     color: var(--accent);
   }
 
   .copy-btn.copied {
+    border-color: var(--success);
+    color: var(--success);
+  }
+
+  .download-btn.downloaded {
     border-color: var(--success);
     color: var(--success);
   }
@@ -384,6 +527,30 @@
     text-align: right;
   }
 
+  .progress-bar {
+    display: none;
+    height: 3px;
+    background: var(--surface2);
+    border-radius: 2px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .progress-bar.active { display: block; }
+
+  .progress-bar .fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    animation: indeterminate 1.5s ease infinite;
+  }
+
+  @keyframes indeterminate {
+    0% { width: 0%; margin-left: 0; }
+    50% { width: 40%; margin-left: 30%; }
+    100% { width: 0%; margin-left: 100%; }
+  }
+
   footer {
     margin-top: 40px;
     text-align: center;
@@ -414,13 +581,43 @@
     <button class="tab" onclick="switchTab('decrypt')">Decrypt</button>
   </div>
 
-  <!-- ENCRYPT PANEL -->
+  <!-- ==================== ENCRYPT PANEL ==================== -->
   <div id="panel-encrypt" class="panel active">
     <div id="status-encrypt" class="status"></div>
+    <div id="progress-encrypt" class="progress-bar"><div class="fill"></div></div>
 
-    <div class="field">
-      <label>Plaintext (your secret)</label>
-      <textarea id="enc-input" placeholder="Enter text to encrypt..." spellcheck="false"></textarea>
+    <div class="mode-toggle">
+      <button class="mode-btn active" onclick="switchMode('encrypt', 'text')">Text</button>
+      <button class="mode-btn" onclick="switchMode('encrypt', 'file')">File</button>
+    </div>
+
+    <!-- Text mode -->
+    <div id="enc-mode-text" class="mode-content active">
+      <div class="field">
+        <label>Plaintext (your secret)</label>
+        <textarea id="enc-input" placeholder="Enter text to encrypt..." spellcheck="false"></textarea>
+      </div>
+    </div>
+
+    <!-- File mode -->
+    <div id="enc-mode-file" class="mode-content">
+      <div class="field">
+        <label>Select file to encrypt</label>
+        <div class="drop-zone" id="enc-drop-zone">
+          <input type="file" id="enc-file-input" />
+          <div class="drop-icon">↑</div>
+          <div class="drop-text">Drop a file here or click to browse</div>
+          <div class="drop-hint">Any file type, any size</div>
+        </div>
+        <div class="file-info" id="enc-file-info">
+          <div class="file-icon">◆</div>
+          <div class="file-details">
+            <div class="file-name" id="enc-file-name"></div>
+            <div class="file-size" id="enc-file-size"></div>
+          </div>
+          <button class="file-remove" onclick="clearFile('encrypt')" title="Remove file">✕</button>
+        </div>
+      </div>
     </div>
 
     <div class="field">
@@ -442,26 +639,59 @@
     </div>
 
     <div class="btn-row">
-      <button class="btn btn-primary" onclick="doEncrypt()">Encrypt</button>
+      <button class="btn btn-primary" id="enc-btn" onclick="doEncrypt()">Encrypt</button>
       <button class="btn btn-secondary" onclick="clearPanel('encrypt')">Clear</button>
     </div>
 
     <div id="enc-output" class="output-section">
       <div class="output-header">
         <label>Encrypted Output</label>
-        <button class="copy-btn" onclick="copyOutput('enc-output-box', this)">Copy</button>
+        <div class="output-actions">
+          <button class="copy-btn" id="enc-copy-btn" onclick="copyOutput('enc-output-box', this)">Copy</button>
+          <button class="download-btn" id="enc-download-btn" onclick="downloadEncrypted()">Download .enc</button>
+        </div>
       </div>
       <div class="output-box" id="enc-output-box"></div>
     </div>
   </div>
 
-  <!-- DECRYPT PANEL -->
+  <!-- ==================== DECRYPT PANEL ==================== -->
   <div id="panel-decrypt" class="panel">
     <div id="status-decrypt" class="status"></div>
+    <div id="progress-decrypt" class="progress-bar"><div class="fill"></div></div>
 
-    <div class="field">
-      <label>Ciphertext (encrypted data)</label>
-      <textarea id="dec-input" placeholder="Paste the encrypted text here..." spellcheck="false"></textarea>
+    <div class="mode-toggle">
+      <button class="mode-btn active" onclick="switchMode('decrypt', 'text')">Text</button>
+      <button class="mode-btn" onclick="switchMode('decrypt', 'file')">File</button>
+    </div>
+
+    <!-- Text mode -->
+    <div id="dec-mode-text" class="mode-content active">
+      <div class="field">
+        <label>Ciphertext (encrypted data)</label>
+        <textarea id="dec-input" placeholder="Paste the encrypted text here..." spellcheck="false"></textarea>
+      </div>
+    </div>
+
+    <!-- File mode -->
+    <div id="dec-mode-file" class="mode-content">
+      <div class="field">
+        <label>Select .enc file to decrypt</label>
+        <div class="drop-zone" id="dec-drop-zone">
+          <input type="file" id="dec-file-input" accept=".enc" />
+          <div class="drop-icon">↑</div>
+          <div class="drop-text">Drop an .enc file here or click to browse</div>
+          <div class="drop-hint">Files with .enc extension</div>
+        </div>
+        <div class="file-info" id="dec-file-info">
+          <div class="file-icon">◆</div>
+          <div class="file-details">
+            <div class="file-name" id="dec-file-name"></div>
+            <div class="file-size" id="dec-file-size"></div>
+          </div>
+          <button class="file-remove" onclick="clearFile('decrypt')" title="Remove file">✕</button>
+        </div>
+      </div>
     </div>
 
     <div class="field">
@@ -473,14 +703,17 @@
     </div>
 
     <div class="btn-row">
-      <button class="btn btn-primary" onclick="doDecrypt()">Decrypt</button>
+      <button class="btn btn-primary" id="dec-btn" onclick="doDecrypt()">Decrypt</button>
       <button class="btn btn-secondary" onclick="clearPanel('decrypt')">Clear</button>
     </div>
 
     <div id="dec-output" class="output-section">
       <div class="output-header">
         <label>Decrypted Output</label>
-        <button class="copy-btn" onclick="copyOutput('dec-output-box', this)">Copy</button>
+        <div class="output-actions">
+          <button class="copy-btn" id="dec-copy-btn" onclick="copyOutput('dec-output-box', this)">Copy</button>
+          <button class="download-btn" id="dec-download-btn" style="display:none;" onclick="downloadDecrypted()">Download File</button>
+        </div>
       </div>
       <div class="output-box" id="dec-output-box"></div>
     </div>
@@ -505,7 +738,7 @@
 </div>
 
 <footer>
-  Vault v1.0 — Self-contained AES-256-GCM encryption<br>
+  Vault v2.0 — Self-contained AES-256-GCM encryption<br>
   No dependencies · No tracking · No network requests · Open source
 </footer>
 
@@ -516,9 +749,17 @@
   const PBKDF2_ITERATIONS = 600000;
   const SALT_BYTES = 32;
   const IV_BYTES = 12;
-  const VERSION = 'V1';
+  const MAGIC = new Uint8Array([0x56, 0x4C, 0x54, 0x32]); // "VLT2"
 
-  // --- Core crypto functions ---
+  // State
+  let encSelectedFile = null;
+  let decSelectedFile = null;
+  let lastDecryptedBlob = null;
+  let lastDecryptedFilename = null;
+  let currentEncMode = 'text';
+  let currentDecMode = 'text';
+
+  // --- Core crypto ---
 
   async function deriveKey(passphrase, salt) {
     const enc = new TextEncoder();
@@ -534,42 +775,88 @@
     );
   }
 
-  async function encrypt(plaintext, passphrase) {
-    const enc = new TextEncoder();
+  async function encryptBytes(data, passphrase) {
     const salt = crypto.getRandomValues(new Uint8Array(SALT_BYTES));
     const iv = crypto.getRandomValues(new Uint8Array(IV_BYTES));
     const key = await deriveKey(passphrase, salt);
     const ciphertext = await crypto.subtle.encrypt(
-      { name: 'AES-GCM', iv: iv },
-      key,
-      enc.encode(plaintext)
+      { name: 'AES-GCM', iv: iv }, key, data
     );
-    // Pack: VERSION + salt + iv + ciphertext
-    const packed = new Uint8Array(2 + SALT_BYTES + IV_BYTES + ciphertext.byteLength);
-    packed[0] = VERSION.charCodeAt(0);
-    packed[1] = VERSION.charCodeAt(1);
-    packed.set(salt, 2);
-    packed.set(iv, 2 + SALT_BYTES);
-    packed.set(new Uint8Array(ciphertext), 2 + SALT_BYTES + IV_BYTES);
-    return btoa(String.fromCharCode(...packed));
+    // Pack: MAGIC(4) + salt(32) + iv(12) + ciphertext
+    const packed = new Uint8Array(4 + SALT_BYTES + IV_BYTES + ciphertext.byteLength);
+    packed.set(MAGIC, 0);
+    packed.set(salt, 4);
+    packed.set(iv, 4 + SALT_BYTES);
+    packed.set(new Uint8Array(ciphertext), 4 + SALT_BYTES + IV_BYTES);
+    return packed;
   }
 
-  async function decrypt(b64, passphrase) {
-    const binary = atob(b64);
-    const bytes = new Uint8Array(binary.length);
-    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-    const version = String.fromCharCode(bytes[0], bytes[1]);
-    if (version !== VERSION) throw new Error('Unrecognized format version.');
-    const salt = bytes.slice(2, 2 + SALT_BYTES);
-    const iv = bytes.slice(2 + SALT_BYTES, 2 + SALT_BYTES + IV_BYTES);
-    const ciphertext = bytes.slice(2 + SALT_BYTES + IV_BYTES);
+  async function decryptBytes(packed, passphrase) {
+    const magic = packed.slice(0, 4);
+    if (magic[0] !== 0x56 || magic[1] !== 0x4C || magic[2] !== 0x54 || magic[3] !== 0x32) {
+      throw new Error('Unrecognized format — not a Vault encrypted file.');
+    }
+    const salt = packed.slice(4, 4 + SALT_BYTES);
+    const iv = packed.slice(4 + SALT_BYTES, 4 + SALT_BYTES + IV_BYTES);
+    const ciphertext = packed.slice(4 + SALT_BYTES + IV_BYTES);
     const key = await deriveKey(passphrase, salt);
-    const plainBuffer = await crypto.subtle.decrypt(
-      { name: 'AES-GCM', iv: iv },
-      key,
-      ciphertext
+    return await crypto.subtle.decrypt(
+      { name: 'AES-GCM', iv: iv }, key, ciphertext
     );
-    return new TextDecoder().decode(plainBuffer);
+  }
+
+  // --- Text encrypt/decrypt (base64 wrapper) ---
+
+  async function encryptText(plaintext, passphrase) {
+    const enc = new TextEncoder();
+    // Prepend metadata: type=text, no filename
+    const meta = enc.encode('T:');
+    const payload = enc.encode(plaintext);
+    const combined = new Uint8Array(meta.length + payload.length);
+    combined.set(meta, 0);
+    combined.set(payload, meta.length);
+    const encrypted = await encryptBytes(combined, passphrase);
+    // Convert to base64 for text output
+    let binary = '';
+    for (let i = 0; i < encrypted.length; i++) binary += String.fromCharCode(encrypted[i]);
+    return btoa(binary);
+  }
+
+  async function encryptFile(fileData, filename, passphrase) {
+    const enc = new TextEncoder();
+    // Prepend metadata: type=file, filename
+    const meta = enc.encode('F:' + filename + '\0');
+    const combined = new Uint8Array(meta.length + fileData.byteLength);
+    combined.set(meta, 0);
+    combined.set(new Uint8Array(fileData), meta.length);
+    return await encryptBytes(combined, passphrase);
+  }
+
+  async function decryptAny(data, passphrase) {
+    const plainBuffer = await decryptBytes(data, passphrase);
+    const plain = new Uint8Array(plainBuffer);
+    const dec = new TextDecoder();
+
+    // Check metadata prefix
+    const firstTwo = dec.decode(plain.slice(0, 2));
+
+    if (firstTwo === 'T:') {
+      // Text mode
+      return { type: 'text', text: dec.decode(plain.slice(2)), filename: null, blob: null };
+    } else if (firstTwo === 'F:') {
+      // File mode — find null terminator for filename
+      let nullIdx = -1;
+      for (let i = 2; i < plain.length; i++) {
+        if (plain[i] === 0) { nullIdx = i; break; }
+      }
+      if (nullIdx === -1) throw new Error('Corrupted file metadata.');
+      const filename = dec.decode(plain.slice(2, nullIdx));
+      const fileData = plain.slice(nullIdx + 1);
+      return { type: 'file', text: null, filename: filename, blob: new Blob([fileData]) };
+    } else {
+      // Legacy V1 format or raw text — treat as text
+      return { type: 'text', text: dec.decode(plain), filename: null, blob: null };
+    }
   }
 
   // --- Passphrase strength ---
@@ -583,7 +870,6 @@
     if (/[^a-zA-Z0-9]/.test(pass)) pool += 32;
     const entropy = Math.log2(Math.pow(pool || 1, pass.length));
     const words = pass.split(/[\s\-_]+/).filter(w => w.length > 0).length;
-    // Bonus for passphrase-style (multiple words)
     const effective = words >= 4 ? entropy * 1.2 : entropy;
     if (effective < 40) return { score: 20, label: 'Weak', color: '#ff4a6a' };
     if (effective < 60) return { score: 40, label: 'Fair', color: '#ffa04a' };
@@ -592,7 +878,13 @@
     return { score: 100, label: 'Excellent', color: '#4aff8a' };
   }
 
-  // --- UI functions ---
+  function formatSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
+  // --- UI ---
 
   window.switchTab = function(tab) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -601,15 +893,26 @@
     document.getElementById(`panel-${tab}`).classList.add('active');
   };
 
+  window.switchMode = function(panel, mode) {
+    const container = document.getElementById(`panel-${panel}`);
+    container.querySelectorAll('.mode-btn').forEach((b, i) => {
+      b.classList.toggle('active', (i === 0 && mode === 'text') || (i === 1 && mode === 'file'));
+    });
+    container.querySelectorAll('.mode-content').forEach(c => c.classList.remove('active'));
+    document.getElementById(`${panel === 'encrypt' ? 'enc' : 'dec'}-mode-${mode}`).classList.add('active');
+    if (panel === 'encrypt') {
+      currentEncMode = mode;
+      document.getElementById('enc-copy-btn').style.display = mode === 'text' ? '' : 'none';
+      document.getElementById('enc-download-btn').style.display = mode === 'file' ? '' : (mode === 'text' ? '' : 'none');
+    } else {
+      currentDecMode = mode;
+    }
+  };
+
   window.toggleVis = function(inputId, btn) {
     const inp = document.getElementById(inputId);
-    if (inp.type === 'password') {
-      inp.type = 'text';
-      btn.textContent = 'hide';
-    } else {
-      inp.type = 'password';
-      btn.textContent = 'show';
-    }
+    if (inp.type === 'password') { inp.type = 'text'; btn.textContent = 'hide'; }
+    else { inp.type = 'password'; btn.textContent = 'show'; }
   };
 
   function showStatus(panel, msg, type) {
@@ -619,13 +922,28 @@
   }
 
   function clearStatus(panel) {
-    const el = document.getElementById(`status-${panel}`);
-    el.className = 'status';
-    el.textContent = '';
+    document.getElementById(`status-${panel}`).className = 'status';
   }
+
+  function showProgress(panel, show) {
+    document.getElementById(`progress-${panel}`).classList.toggle('active', show);
+  }
+
+  window.clearFile = function(panel) {
+    if (panel === 'encrypt') {
+      encSelectedFile = null;
+      document.getElementById('enc-file-input').value = '';
+      document.getElementById('enc-file-info').classList.remove('visible');
+    } else {
+      decSelectedFile = null;
+      document.getElementById('dec-file-input').value = '';
+      document.getElementById('dec-file-info').classList.remove('visible');
+    }
+  };
 
   window.clearPanel = function(panel) {
     clearStatus(panel);
+    showProgress(panel, false);
     if (panel === 'encrypt') {
       document.getElementById('enc-input').value = '';
       document.getElementById('enc-pass').value = '';
@@ -634,11 +952,16 @@
       document.getElementById('enc-output-box').textContent = '';
       document.getElementById('enc-strength-fill').style.width = '0%';
       document.getElementById('enc-strength-label').textContent = '';
+      clearFile('encrypt');
     } else {
       document.getElementById('dec-input').value = '';
       document.getElementById('dec-pass').value = '';
       document.getElementById('dec-output').classList.remove('visible');
       document.getElementById('dec-output-box').textContent = '';
+      document.getElementById('dec-download-btn').style.display = 'none';
+      lastDecryptedBlob = null;
+      lastDecryptedFilename = null;
+      clearFile('decrypt');
     }
   };
 
@@ -647,47 +970,125 @@
     navigator.clipboard.writeText(text).then(() => {
       btn.textContent = 'Copied';
       btn.classList.add('copied');
-      setTimeout(() => {
-        btn.textContent = 'Copy';
-        btn.classList.remove('copied');
-      }, 2000);
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
     });
   };
 
+  // --- Encrypt ---
+
+  let lastEncryptedBinary = null;
+  let lastEncryptedFilename = null;
+
   window.doEncrypt = async function() {
     clearStatus('encrypt');
-    const plaintext = document.getElementById('enc-input').value.trim();
     const pass = document.getElementById('enc-pass').value;
     const passConfirm = document.getElementById('enc-pass-confirm').value;
 
-    if (!plaintext) return showStatus('encrypt', 'Please enter text to encrypt.', 'error');
     if (!pass) return showStatus('encrypt', 'Please enter a passphrase.', 'error');
     if (pass.length < 8) return showStatus('encrypt', 'Passphrase must be at least 8 characters.', 'error');
     if (pass !== passConfirm) return showStatus('encrypt', 'Passphrases do not match.', 'error');
 
+    showProgress('encrypt', true);
+    document.getElementById('enc-btn').disabled = true;
+
     try {
-      const result = await encrypt(plaintext, pass);
-      document.getElementById('enc-output-box').textContent = result;
-      document.getElementById('enc-output').classList.add('visible');
-      showStatus('encrypt', 'Encrypted successfully. Copy the output and store it safely.', 'success');
+      if (currentEncMode === 'text') {
+        const plaintext = document.getElementById('enc-input').value.trim();
+        if (!plaintext) { showProgress('encrypt', false); document.getElementById('enc-btn').disabled = false; return showStatus('encrypt', 'Please enter text to encrypt.', 'error'); }
+        const result = await encryptText(plaintext, pass);
+        document.getElementById('enc-output-box').textContent = result;
+        document.getElementById('enc-output').classList.add('visible');
+        document.getElementById('enc-copy-btn').style.display = '';
+        document.getElementById('enc-download-btn').textContent = 'Download .enc';
+        document.getElementById('enc-download-btn').style.display = '';
+        // Store for download
+        const b64bytes = new TextEncoder().encode(result);
+        lastEncryptedBinary = new Blob([b64bytes]);
+        lastEncryptedFilename = 'encrypted.txt.enc';
+        showStatus('encrypt', 'Encrypted successfully. Copy the text or download the .enc file.', 'success');
+      } else {
+        if (!encSelectedFile) { showProgress('encrypt', false); document.getElementById('enc-btn').disabled = false; return showStatus('encrypt', 'Please select a file to encrypt.', 'error'); }
+        const fileData = await encSelectedFile.arrayBuffer();
+        const encrypted = await encryptFile(fileData, encSelectedFile.name, pass);
+        // For file mode, show size info, offer download only
+        const sizeInfo = formatSize(encSelectedFile.size) + ' → ' + formatSize(encrypted.byteLength);
+        document.getElementById('enc-output-box').textContent = 'File encrypted successfully.\nOriginal: ' + encSelectedFile.name + ' (' + formatSize(encSelectedFile.size) + ')\nEncrypted: ' + encSelectedFile.name + '.enc (' + formatSize(encrypted.byteLength) + ')';
+        document.getElementById('enc-output').classList.add('visible');
+        document.getElementById('enc-copy-btn').style.display = 'none';
+        document.getElementById('enc-download-btn').textContent = 'Download .enc';
+        document.getElementById('enc-download-btn').style.display = '';
+        lastEncryptedBinary = new Blob([encrypted]);
+        lastEncryptedFilename = encSelectedFile.name + '.enc';
+        showStatus('encrypt', 'File encrypted. Download the .enc file.', 'success');
+      }
     } catch (e) {
       showStatus('encrypt', 'Encryption failed: ' + e.message, 'error');
     }
+    showProgress('encrypt', false);
+    document.getElementById('enc-btn').disabled = false;
   };
+
+  window.downloadEncrypted = function() {
+    if (!lastEncryptedBinary) return;
+    const url = URL.createObjectURL(lastEncryptedBinary);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = lastEncryptedFilename;
+    a.click();
+    URL.revokeObjectURL(url);
+    const btn = document.getElementById('enc-download-btn');
+    btn.textContent = 'Downloaded';
+    btn.classList.add('downloaded');
+    setTimeout(() => { btn.textContent = 'Download .enc'; btn.classList.remove('downloaded'); }, 2000);
+  };
+
+  // --- Decrypt ---
 
   window.doDecrypt = async function() {
     clearStatus('decrypt');
-    const ciphertext = document.getElementById('dec-input').value.trim();
     const pass = document.getElementById('dec-pass').value;
-
-    if (!ciphertext) return showStatus('decrypt', 'Please paste the encrypted text.', 'error');
     if (!pass) return showStatus('decrypt', 'Please enter the passphrase.', 'error');
 
+    showProgress('decrypt', true);
+    document.getElementById('dec-btn').disabled = true;
+
     try {
-      const result = await decrypt(ciphertext, pass);
-      document.getElementById('dec-output-box').textContent = result;
-      document.getElementById('dec-output').classList.add('visible');
-      showStatus('decrypt', 'Decrypted successfully.', 'success');
+      let packed;
+
+      if (currentDecMode === 'text') {
+        const ciphertext = document.getElementById('dec-input').value.trim();
+        if (!ciphertext) { showProgress('decrypt', false); document.getElementById('dec-btn').disabled = false; return showStatus('decrypt', 'Please paste the encrypted text.', 'error'); }
+        // base64 decode
+        const binary = atob(ciphertext);
+        packed = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) packed[i] = binary.charCodeAt(i);
+      } else {
+        if (!decSelectedFile) { showProgress('decrypt', false); document.getElementById('dec-btn').disabled = false; return showStatus('decrypt', 'Please select an .enc file.', 'error'); }
+        const buf = await decSelectedFile.arrayBuffer();
+        packed = new Uint8Array(buf);
+      }
+
+      const result = await decryptAny(packed, pass);
+
+      if (result.type === 'text') {
+        document.getElementById('dec-output-box').textContent = result.text;
+        document.getElementById('dec-output').classList.add('visible');
+        document.getElementById('dec-copy-btn').style.display = '';
+        document.getElementById('dec-download-btn').style.display = 'none';
+        lastDecryptedBlob = null;
+        lastDecryptedFilename = null;
+        showStatus('decrypt', 'Decrypted successfully.', 'success');
+      } else {
+        // File result
+        lastDecryptedBlob = result.blob;
+        lastDecryptedFilename = result.filename;
+        document.getElementById('dec-output-box').textContent = 'File decrypted successfully.\nFilename: ' + result.filename + '\nSize: ' + formatSize(result.blob.size);
+        document.getElementById('dec-output').classList.add('visible');
+        document.getElementById('dec-copy-btn').style.display = 'none';
+        document.getElementById('dec-download-btn').style.display = '';
+        document.getElementById('dec-download-btn').textContent = 'Download ' + result.filename;
+        showStatus('decrypt', 'File decrypted. Download your file below.', 'success');
+      }
     } catch (e) {
       if (e.name === 'OperationError') {
         showStatus('decrypt', 'Decryption failed — wrong passphrase or corrupted data.', 'error');
@@ -695,28 +1096,79 @@
         showStatus('decrypt', 'Decryption failed: ' + e.message, 'error');
       }
     }
+    showProgress('decrypt', false);
+    document.getElementById('dec-btn').disabled = false;
   };
 
-  // Passphrase strength meter
+  window.downloadDecrypted = function() {
+    if (!lastDecryptedBlob || !lastDecryptedFilename) return;
+    const url = URL.createObjectURL(lastDecryptedBlob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = lastDecryptedFilename;
+    a.click();
+    URL.revokeObjectURL(url);
+    const btn = document.getElementById('dec-download-btn');
+    const origText = btn.textContent;
+    btn.textContent = 'Downloaded';
+    btn.classList.add('downloaded');
+    setTimeout(() => { btn.textContent = origText; btn.classList.remove('downloaded'); }, 2000);
+  };
+
+  // --- File input handlers ---
+
+  function setupFileDrop(dropZoneId, fileInputId, infoId, nameId, sizeId, side) {
+    const dropZone = document.getElementById(dropZoneId);
+    const fileInput = document.getElementById(fileInputId);
+
+    ['dragenter', 'dragover'].forEach(e => {
+      dropZone.addEventListener(e, ev => { ev.preventDefault(); dropZone.classList.add('dragover'); });
+    });
+    ['dragleave', 'drop'].forEach(e => {
+      dropZone.addEventListener(e, ev => { ev.preventDefault(); dropZone.classList.remove('dragover'); });
+    });
+
+    dropZone.addEventListener('drop', ev => {
+      const files = ev.dataTransfer.files;
+      if (files.length > 0) handleFileSelect(files[0], side);
+    });
+
+    fileInput.addEventListener('change', function() {
+      if (this.files.length > 0) handleFileSelect(this.files[0], side);
+    });
+
+    function handleFileSelect(file, side) {
+      if (side === 'encrypt') {
+        encSelectedFile = file;
+        document.getElementById('enc-file-name').textContent = file.name;
+        document.getElementById('enc-file-size').textContent = formatSize(file.size);
+        document.getElementById('enc-file-info').classList.add('visible');
+      } else {
+        decSelectedFile = file;
+        document.getElementById('dec-file-name').textContent = file.name;
+        document.getElementById('dec-file-size').textContent = formatSize(file.size);
+        document.getElementById('dec-file-info').classList.add('visible');
+      }
+    }
+  }
+
+  setupFileDrop('enc-drop-zone', 'enc-file-input', 'enc-file-info', 'enc-file-name', 'enc-file-size', 'encrypt');
+  setupFileDrop('dec-drop-zone', 'dec-file-input', 'dec-file-info', 'dec-file-name', 'dec-file-size', 'decrypt');
+
+  // Passphrase strength
   document.getElementById('enc-pass').addEventListener('input', function() {
     const s = estimateStrength(this.value);
-    const fill = document.getElementById('enc-strength-fill');
-    const label = document.getElementById('enc-strength-label');
-    fill.style.width = s.score + '%';
-    fill.style.background = s.color;
-    label.textContent = s.label;
-    label.style.color = s.color;
+    document.getElementById('enc-strength-fill').style.width = s.score + '%';
+    document.getElementById('enc-strength-fill').style.background = s.color;
+    document.getElementById('enc-strength-label').textContent = s.label;
+    document.getElementById('enc-strength-label').style.color = s.color;
   });
 
-  // Enter key support
-  document.getElementById('enc-pass-confirm').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') doEncrypt();
-  });
-  document.getElementById('dec-pass').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') doDecrypt();
-  });
+  // Enter key
+  document.getElementById('enc-pass-confirm').addEventListener('keydown', function(e) { if (e.key === 'Enter') doEncrypt(); });
+  document.getElementById('dec-pass').addEventListener('keydown', function(e) { if (e.key === 'Enter') doDecrypt(); });
 
-  // Verify Web Crypto is available
+  // Verify Web Crypto
   if (!window.crypto || !window.crypto.subtle) {
     document.querySelector('.container').innerHTML =
       '<div class="status error" style="display:block">Your browser does not support the Web Crypto API. Please use a modern browser (Chrome, Firefox, Safari, Edge).</div>';
